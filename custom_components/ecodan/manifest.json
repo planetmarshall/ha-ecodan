@@ -1,0 +1,17 @@
+{
+  "domain": "ecodan",
+  "name": "ha-ecodan",
+  "codeowners": [
+    "@planetmarshall"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://www.home-assistant.io/integrations/ecodan",
+  "homekit": {},
+  "iot_class": "cloud_polling",
+  "requirements": [
+    "git+https://github.com/planetmarshall/pyecodan"
+  ],
+  "ssdp": [],
+  "zeroconf": []
+}

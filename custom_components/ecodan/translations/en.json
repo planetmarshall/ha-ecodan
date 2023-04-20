@@ -1,0 +1,21 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Device is already configured"
+        },
+        "error": {
+            "device_not_found": "Device Not Found",
+            "invalid_auth": "Invalid authentication",
+            "unknown": "Unexpected error"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "device_name": "Device Name",
+                    "password": "Password",
+                    "username": "Username"
+                }
+            }
+        }
+    }
+}
