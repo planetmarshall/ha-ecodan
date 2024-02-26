@@ -11,16 +11,14 @@ from homeassistant.helpers.update_coordinator import (
 )
 from homeassistant.exceptions import ConfigEntryAuthFailed
 
-from .api import (
-    IntegrationBlueprintApiClient,
-    IntegrationBlueprintApiClientAuthenticationError,
-    IntegrationBlueprintApiClientError,
-)
-from .const import DOMAIN, LOGGER
+from .pyecodan import Device
+from .pyecodan.errors import DeviceCommunicationError, DeviceAuthenticationError
+
+from .const import DOMAIN, LOGGER, CONF_DEVICE_ID
 
 
 # https://developers.home-assistant.io/docs/integration_fetching_data#coordinated-single-api-poll-for-data-for-all-entities
-class BlueprintDataUpdateCoordinator(DataUpdateCoordinator):
+class EcodanDataUpdateCoordinator(DataUpdateCoordinator):
     """Class to manage fetching data from the API."""
 
     config_entry: ConfigEntry
@@ -28,10 +26,10 @@ class BlueprintDataUpdateCoordinator(DataUpdateCoordinator):
     def __init__(
         self,
         hass: HomeAssistant,
-        client: IntegrationBlueprintApiClient,
+        device: Device,
     ) -> None:
         """Initialize."""
-        self.client = client
+        self._device = device
         super().__init__(
             hass=hass,
             logger=LOGGER,
@@ -39,11 +37,15 @@ class BlueprintDataUpdateCoordinator(DataUpdateCoordinator):
             update_interval=timedelta(minutes=5),
         )
 
+    @property
+    def device(self) -> Device:
+        return self._device
+
     async def _async_update_data(self):
         """Update data via library."""
         try:
-            return await self.client.async_get_data()
-        except IntegrationBlueprintApiClientAuthenticationError as exception:
+            return await self._device.get_state()
+        except DeviceAuthenticationError as exception:
             raise ConfigEntryAuthFailed(exception) from exception
-        except IntegrationBlueprintApiClientError as exception:
+        except DeviceCommunicationError as exception:
             raise UpdateFailed(exception) from exception
