@@ -9,12 +9,14 @@ class EffectiveFlags(IntFlag):
     Power = 1
 
 
-class InternalDeviceStateKeys:
+class DeviceStateKeys:
     FlowTemperature = "FlowTemperature"
+    OutdoorTemperature = "OutdoorTemperature"
+    HotWaterTemperature = "TankWaterTemperature"
     Power = "Power"
 
 
-class DeviceStateKeys:
+class DevicePropertyKeys:
     DeviceName = "DeviceName"
     DeviceID = "DeviceID"
     BuildingID = "BuildingID"
@@ -27,12 +29,17 @@ class DeviceState:
         self._state = {}
         internal_device_state = device_state["Device"]
 
-        self._state[InternalDeviceStateKeys.FlowTemperature] = internal_device_state[InternalDeviceStateKeys.FlowTemperature]
-        self._state[InternalDeviceStateKeys.Power] = internal_device_state[InternalDeviceStateKeys.Power]
+        for field in (
+            DeviceStateKeys.FlowTemperature,
+            DeviceStateKeys.Power,
+            DeviceStateKeys.OutdoorTemperature,
+            DeviceStateKeys.HotWaterTemperature
+        ):
+            self._state[field] = internal_device_state[field]
 
-        self._state[DeviceStateKeys.DeviceID] = device_state[DeviceStateKeys.DeviceID]
-        self._state[DeviceStateKeys.DeviceName] = device_state[DeviceStateKeys.DeviceName]
-        self._state[DeviceStateKeys.BuildingID] = device_state[DeviceStateKeys.BuildingID]
+        self._state[DevicePropertyKeys.DeviceID] = device_state[DevicePropertyKeys.DeviceID]
+        self._state[DevicePropertyKeys.DeviceName] = device_state[DevicePropertyKeys.DeviceName]
+        self._state[DevicePropertyKeys.BuildingID] = device_state[DevicePropertyKeys.BuildingID]
 
 
     def __getitem__(self, item):
@@ -51,21 +58,21 @@ class Device:
 
     @property
     def id(self):
-        return self._state[DeviceStateKeys.DeviceID]
+        return self._state[DevicePropertyKeys.DeviceID]
 
     @property
     def name(self):
-        return self._state[DeviceStateKeys.DeviceName]
+        return self._state[DevicePropertyKeys.DeviceName]
 
     @property
     def building_id(self):
-        return self._state[DeviceStateKeys.BuildingID]
+        return self._state[DevicePropertyKeys.BuildingID]
 
     async def _request(self, effective_flags: EffectiveFlags, **kwargs) -> Dict:
         state = {
-            DeviceStateKeys.BuildingID: self.building_id,
-            DeviceStateKeys.DeviceID: self.id,
-            DeviceStateKeys.EffectiveFlags: effective_flags
+            DevicePropertyKeys.BuildingID: self.building_id,
+            DevicePropertyKeys.DeviceID: self.id,
+            DevicePropertyKeys.EffectiveFlags: effective_flags
         }
         state.update(kwargs)
         return await self._client.device_request("SetAtw", state)
@@ -84,7 +91,7 @@ class Device:
         Turn on the Heat Pump. Performs the same task as the `On` switch in the MELCloud interface
         """
         response_state = await self._request(EffectiveFlags.Power, Power=True)
-        if not response_state[InternalDeviceStateKeys.Power]:
+        if not response_state[DeviceStateKeys.Power]:
             raise DeviceCommunicationError("Power could not be set")
 
     async def power_off(self) -> None:
@@ -92,5 +99,5 @@ class Device:
         Turn off the Heat Pump. Performs the same task as the `Off` switch in the MELCloud interface
         """
         response_state = await self._request(EffectiveFlags.Power, Power=False)
-        if response_state[InternalDeviceStateKeys.Power]:
+        if response_state[DeviceStateKeys.Power]:
             raise DeviceCommunicationError("Power could not be set")

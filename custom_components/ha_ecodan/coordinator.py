@@ -1,4 +1,3 @@
-"""DataUpdateCoordinator for integration_blueprint."""
 from __future__ import annotations
 
 from datetime import timedelta
@@ -34,7 +33,7 @@ class EcodanDataUpdateCoordinator(DataUpdateCoordinator):
             hass=hass,
             logger=LOGGER,
             name=DOMAIN,
-            update_interval=timedelta(minutes=5),
+            update_interval=timedelta(minutes=2),
         )
 
     @property
