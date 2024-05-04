@@ -13,7 +13,7 @@ from homeassistant.exceptions import ConfigEntryAuthFailed
 from .pyecodan import Device
 from .pyecodan.errors import DeviceCommunicationError, DeviceAuthenticationError
 
-from .const import DOMAIN, LOGGER, CONF_DEVICE_ID
+from .const import DOMAIN, LOGGER
 
 
 # https://developers.home-assistant.io/docs/integration_fetching_data#coordinated-single-api-poll-for-data-for-all-entities
@@ -38,6 +38,7 @@ class EcodanDataUpdateCoordinator(DataUpdateCoordinator):
 
     @property
     def device(self) -> Device:
+        """Get the ecodan device."""
         return self._device
 
     async def _async_update_data(self):

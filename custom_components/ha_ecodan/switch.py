@@ -30,6 +30,8 @@ async def async_setup_entry(hass, entry, async_add_devices):
 
 
 class EcodanPowerSwitch(EcodanEntity, SwitchEntity):
+    """A Switch Entity for Ecodan Heatpumps."""
+
     def __init__(
         self,
         coordinator: EcodanDataUpdateCoordinator,
