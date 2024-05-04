@@ -1,5 +1,4 @@
 import os
-from typing import Dict, List
 
 from aiohttp import ClientSession
 
@@ -7,10 +6,8 @@ from .device import Device
 from .errors import DeviceAuthenticationError
 
 
-class Client():
-    """
-    A client for communicating with an Ecodan Heatpump via MELCloud
-    """
+class Client:
+    """A client for communicating with an Ecodan Heatpump via MELCloud."""
 
     base_url = "https://app.melcloud.com/Mitsubishi.Wifi.Client"
 
@@ -19,6 +16,8 @@ class Client():
                  password: str = os.getenv("ECODAN_PASSWORD"),
                  session: ClientSession = None):
         """
+        Create a client with the supplied credentials.
+
         :param username: MELCloud username. Default is taken from the environment variable `ECODAN_USERNAME`
         :param password: MELCloud password. Default is taken from the environment variable `ECODAN_PASSWORD`
         """
@@ -27,7 +26,8 @@ class Client():
         self._context_key = None
         self._session = session or ClientSession()
 
-    async def device_request(self, endpoint: str, state: Dict):
+    async def device_request(self, endpoint: str, state: dict):
+        """Make a request of the API."""
         if self._context_key is None:
             await self.login()
 
@@ -36,7 +36,7 @@ class Client():
         async with self._session.post(url, headers=auth_header, json=state) as response:
             return await response.json()
 
-    async def _user_request(self, endpoint) -> Dict:
+    async def _user_request(self, endpoint) -> dict:
         if self._context_key is None:
             await self.login()
 
@@ -46,6 +46,7 @@ class Client():
             return await response.json()
 
     async def login(self) -> None:
+        """Log into MELCloud."""
         login_url = f"{Client.base_url}/Login/ClientLogin"
         login_data = {
             "Email": self._username,
@@ -62,6 +63,7 @@ class Client():
             self._context_key = response_data["LoginData"]["ContextKey"]
 
     async def get_device(self, device_id: str) -> Device | None:
+        """Get device from MELCloud."""
         for location in await self._user_request("ListDevices"):
             structure = location["Structure"]
             for device in structure["Devices"]:
@@ -70,7 +72,8 @@ class Client():
 
         return None
 
-    async def list_devices(self) -> Dict:
+    async def list_devices(self) -> dict:
+        """List the available devices from MELCloud."""
         devices = {}
         for location in await self._user_request("ListDevices"):
             structure = location["Structure"]

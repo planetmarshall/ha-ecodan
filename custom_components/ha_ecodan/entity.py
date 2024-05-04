@@ -8,6 +8,7 @@ from .coordinator import EcodanDataUpdateCoordinator
 
 
 class EcodanEntity(CoordinatorEntity):
+    """Base class for Ecodan entities."""
 
     _attr_attribution = ATTRIBUTION
 

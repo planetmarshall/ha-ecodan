@@ -10,6 +10,8 @@ from .entity import EcodanEntity
 
 @dataclass(kw_only=True)
 class EcodanSensorEntityDescription(SensorEntityDescription):
+    """A Sensor Description for Ecodan Sensors."""
+
     state_key: str
 
 
@@ -55,11 +57,15 @@ async def async_setup_entry(hass, entry, async_add_devices):
     )
 
 class EcodanSensor(EcodanEntity, SensorEntity):
+    """A Sensor Entity for the Ecodan platform."""
+
     def __init__(self, coordinator: EcodanDataUpdateCoordinator, entity_description: EcodanSensorEntityDescription):
+        """Create an Ecodan sensor."""
         super().__init__(coordinator)
         self.entity_description = entity_description
         self._attr_unique_id = f"{coordinator.device.id}_{entity_description.state_key}".lower()
 
     @property
     def native_value(self) -> str:
+        """Return the value of the sensor."""
         return self.coordinator.data.get(self.entity_description.state_key)

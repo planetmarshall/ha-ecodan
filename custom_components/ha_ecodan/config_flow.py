@@ -14,6 +14,8 @@ from .const import DOMAIN, LOGGER
 
 
 class EcodanFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
+    """Config flow handler for setting up the Ecodan integration."""
+
     VERSION = 1
 
     async def async_step_user(
@@ -66,7 +68,7 @@ class EcodanFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             self,
             user_input: dict
     ) -> config_entries.FlowResult:
-        """List the available devices to the user"""
+        """List the available devices to the user."""
 
         _errors = {}
         device_name = user_input.get("device")
