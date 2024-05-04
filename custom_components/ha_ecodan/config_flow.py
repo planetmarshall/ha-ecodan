@@ -14,8 +14,6 @@ from .const import DOMAIN, LOGGER
 
 
 class EcodanFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
-    """Config flow for Blueprint."""
-
     VERSION = 1
 
     async def async_step_user(

@@ -11,8 +11,8 @@ from .pyecodan.device import InternalDeviceStateKeys
 ENTITY_DESCRIPTIONS = (
     SwitchEntityDescription(
         key="ha_ecodan",
-        name="Ecodan Power Switch",
-        icon="mdi:format-quote-close",
+        name="Power Switch",
+        icon="mdi:power"
     ),
 )
 
@@ -30,8 +30,6 @@ async def async_setup_entry(hass, entry, async_add_devices):
 
 
 class EcodanPowerSwitch(EcodanEntity, SwitchEntity):
-    """integration_blueprint switch class."""
-
     def __init__(
         self,
         coordinator: EcodanDataUpdateCoordinator,

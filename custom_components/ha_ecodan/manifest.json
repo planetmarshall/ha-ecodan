@@ -5,8 +5,8 @@
     "@planetmarshall"
   ],
   "config_flow": true,
-  "documentation": "https://github.com/ludeeus/integration_blueprint",
+  "documentation": "https://github.com/planetmarshall/ha-ecodan",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/ludeeus/integration_blueprint/issues",
+  "issue_tracker": "https://github.com/planetmarshall/ha-ecodan/issues",
   "version": "0.1.0"
 }

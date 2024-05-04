@@ -1,4 +1,3 @@
-"""BlueprintEntity class."""
 from __future__ import annotations
 
 from homeassistant.helpers.entity import DeviceInfo
@@ -9,7 +8,6 @@ from .coordinator import EcodanDataUpdateCoordinator
 
 
 class EcodanEntity(CoordinatorEntity):
-    """BlueprintEntity class."""
 
     _attr_attribution = ATTRIBUTION
 
