@@ -6,7 +6,7 @@ from homeassistant.components.switch import SwitchEntity, SwitchEntityDescriptio
 from .const import DOMAIN
 from .coordinator import EcodanDataUpdateCoordinator
 from .entity import EcodanEntity
-from .pyecodan.device import InternalDeviceStateKeys
+from .pyecodan.device import DeviceStateKeys
 
 ENTITY_DESCRIPTIONS = (
     SwitchEntityDescription(
@@ -42,7 +42,7 @@ class EcodanPowerSwitch(EcodanEntity, SwitchEntity):
     @property
     def is_on(self) -> bool:
         """Return true if the switch is on."""
-        return self.coordinator.data.get(InternalDeviceStateKeys.Power)
+        return self.coordinator.data.get(DeviceStateKeys.Power)
 
     async def async_turn_on(self, **_: any) -> None:
         """Turn on the switch."""

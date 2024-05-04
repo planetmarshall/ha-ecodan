@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from typing import Callable
 
+from homeassistant.const import UnitOfTemperature
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription, SensorDeviceClass, SensorStateClass
 
 from custom_components.ha_ecodan import EcodanDataUpdateCoordinator, DOMAIN
@@ -18,6 +18,7 @@ ENTITY_DESCRIPTIONS = (
         key="ha_ecodan",
         name="Flow Temperature",
         icon="mdi:thermometer",
+        native_unit_of_measurement = UnitOfTemperature.CELSIUS,
         device_class = SensorDeviceClass.TEMPERATURE,
         state_class=SensorStateClass.MEASUREMENT,
         state_key = DeviceStateKeys.FlowTemperature
@@ -26,6 +27,7 @@ ENTITY_DESCRIPTIONS = (
         key="ha_ecodan",
         name="Outdoor Temperature",
         icon="mdi:thermometer",
+        native_unit_of_measurement = UnitOfTemperature.CELSIUS,
         device_class=SensorDeviceClass.TEMPERATURE,
         state_class=SensorStateClass.MEASUREMENT,
         state_key = DeviceStateKeys.OutdoorTemperature
@@ -34,6 +36,7 @@ ENTITY_DESCRIPTIONS = (
         key="ha_ecodan",
         name="Hot Water Temperature",
         icon="mdi:thermometer",
+        native_unit_of_measurement = UnitOfTemperature.CELSIUS,
         device_class=SensorDeviceClass.TEMPERATURE,
         state_class=SensorStateClass.MEASUREMENT,
         state_key=DeviceStateKeys.HotWaterTemperature
@@ -55,6 +58,7 @@ class EcodanSensor(EcodanEntity, SensorEntity):
     def __init__(self, coordinator: EcodanDataUpdateCoordinator, entity_description: EcodanSensorEntityDescription):
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = f"{coordinator.device.id}_{entity_description.state_key}".lower()
 
     @property
     def native_value(self) -> str:
