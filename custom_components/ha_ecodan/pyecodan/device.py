@@ -5,8 +5,8 @@ from .errors import DeviceCommunicationError
 
 
 class EffectiveFlags(IntFlag):
-    Update = 0
-    Power = 1
+    Update = 0x0
+    Power = 0x1
 
 
 class DeviceStateKeys:
