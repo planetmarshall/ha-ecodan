@@ -25,5 +25,8 @@ jobs:
         - name: "Install requirements"
           run: python3 -m pip install -r requirements.txt
 
-        - name: "Run"
-          run: python3 -m ruff check .
+        - name: "Lint check"
+          run:  ruff check .
+
+        - name: "Format check"
+          run: ruff check --format .
