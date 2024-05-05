@@ -33,4 +33,4 @@ async def test_set_operation_mode(melcloud, operation_mode_index, operation_mode
 
     client.device_request.assert_called_with(
         "SetAtw",
-        melcloud.request_with(EffectiveFlags=281475043819560, OperationModeZone1=operation_mode_index))
+        melcloud.request_with(EffectiveFlags=8, OperationModeZone1=operation_mode_index))

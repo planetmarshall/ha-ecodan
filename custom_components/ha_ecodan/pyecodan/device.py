@@ -8,7 +8,7 @@ class EffectiveFlags(IntFlag):
 
     Update = 0x0
     Power = 0x1
-    OperationModeZone1 = 0x1000004000028
+    OperationModeZone1 = 0x8
 
 
 class DeviceStateKeys:
