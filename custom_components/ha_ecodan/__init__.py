@@ -11,10 +11,7 @@ from .const import DOMAIN, CONF_DEVICE_ID
 from .coordinator import EcodanDataUpdateCoordinator
 from .pyecodan import Client
 
-PLATFORMS: list[Platform] = [
-    Platform.SWITCH,
-    Platform.SENSOR
-]
+PLATFORMS: list[Platform] = [Platform.SWITCH, Platform.SENSOR]
 
 
 # https://developers.home-assistant.io/docs/config_entries_index/#setting-up-an-entry
@@ -27,10 +24,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         session=async_get_clientsession(hass),
     )
     device = await client.get_device(entry.data[CONF_DEVICE_ID])
-    hass.data[DOMAIN][entry.entry_id] = coordinator = EcodanDataUpdateCoordinator(
-        hass=hass,
-        device=device
-    )
+    hass.data[DOMAIN][entry.entry_id] = coordinator = EcodanDataUpdateCoordinator(hass=hass, device=device)
     # https://developers.home-assistant.io/docs/integration_fetching_data#coordinated-single-api-poll-for-data-for-all-entities
     await coordinator.async_config_entry_first_refresh()
 

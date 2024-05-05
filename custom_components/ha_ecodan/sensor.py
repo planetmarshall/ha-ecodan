@@ -20,30 +20,31 @@ ENTITY_DESCRIPTIONS = (
         key="ha_ecodan",
         name="Flow Temperature",
         icon="mdi:thermometer",
-        native_unit_of_measurement = UnitOfTemperature.CELSIUS,
-        device_class = SensorDeviceClass.TEMPERATURE,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        device_class=SensorDeviceClass.TEMPERATURE,
         state_class=SensorStateClass.MEASUREMENT,
-        state_key = DeviceStateKeys.FlowTemperature
+        state_key=DeviceStateKeys.FlowTemperature,
     ),
     EcodanSensorEntityDescription(
         key="ha_ecodan",
         name="Outdoor Temperature",
         icon="mdi:thermometer",
-        native_unit_of_measurement = UnitOfTemperature.CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         device_class=SensorDeviceClass.TEMPERATURE,
         state_class=SensorStateClass.MEASUREMENT,
-        state_key = DeviceStateKeys.OutdoorTemperature
+        state_key=DeviceStateKeys.OutdoorTemperature,
     ),
     EcodanSensorEntityDescription(
         key="ha_ecodan",
         name="Hot Water Temperature",
         icon="mdi:thermometer",
-        native_unit_of_measurement = UnitOfTemperature.CELSIUS,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         device_class=SensorDeviceClass.TEMPERATURE,
         state_class=SensorStateClass.MEASUREMENT,
-        state_key=DeviceStateKeys.HotWaterTemperature
+        state_key=DeviceStateKeys.HotWaterTemperature,
     ),
 )
+
 
 async def async_setup_entry(hass, entry, async_add_devices):
     """Set up the sensor platform."""
@@ -55,6 +56,7 @@ async def async_setup_entry(hass, entry, async_add_devices):
         )
         for entity_description in ENTITY_DESCRIPTIONS
     )
+
 
 class EcodanSensor(EcodanEntity, SensorEntity):
     """A Sensor Entity for the Ecodan platform."""

@@ -1,4 +1,5 @@
 """Switch platform for integration_blueprint."""
+
 from __future__ import annotations
 
 from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription
@@ -8,13 +9,7 @@ from .coordinator import EcodanDataUpdateCoordinator
 from .entity import EcodanEntity
 from .pyecodan.device import DeviceStateKeys
 
-ENTITY_DESCRIPTIONS = (
-    SwitchEntityDescription(
-        key="ha_ecodan",
-        name="Power Switch",
-        icon="mdi:power"
-    ),
-)
+ENTITY_DESCRIPTIONS = (SwitchEntityDescription(key="ha_ecodan", name="Power Switch", icon="mdi:power"),)
 
 
 async def async_setup_entry(hass, entry, async_add_devices):
