@@ -9,8 +9,8 @@ on:
       - "main"
 
 jobs:
-  ruff:
-    name: "Ruff"
+  lint_and_test:
+    name: Lint and run tests
     runs-on: "ubuntu-latest"
     steps:
         - name: "Checkout the repository"
@@ -29,7 +29,7 @@ jobs:
           run:  ruff check custom_components
 
         - name: Format check
-          run: ruff check --format custom_components
+          run: ruff format --check custom_components
 
         - name: Run tests
           run: python -m pytest -v test
