@@ -1,4 +1,4 @@
-name: "Lint"
+name: "Lint and Test"
 
 on:
   push:
@@ -25,8 +25,11 @@ jobs:
         - name: "Install requirements"
           run: python3 -m pip install -r requirements.txt
 
-        - name: "Lint check"
-          run:  ruff check .
+        - name: Lint Check
+          run:  ruff check custom_components
 
-        - name: "Format check"
-          run: ruff check --format .
+        - name: Format check
+          run: ruff check --format custom_components
+
+        - name: Run tests
+          run: python -m pytest -v test
