@@ -1,4 +1,5 @@
 """Adds config flow for Blueprint."""
+
 from __future__ import annotations
 
 import voluptuous as vol
@@ -19,8 +20,8 @@ class EcodanFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
     VERSION = 1
 
     async def async_step_user(
-            self,
-            user_input: dict | None = None,
+        self,
+        user_input: dict | None = None,
     ) -> config_entries.FlowResult:
         """Handle a flow initialized by the user."""
         _errors = {}
@@ -50,24 +51,17 @@ class EcodanFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                         CONF_USERNAME,
                         default=(user_input or {}).get(CONF_USERNAME),
                     ): TextSelector(
-                        TextSelectorConfig(
-                            type=TextSelectorType.TEXT
-                        ),
+                        TextSelectorConfig(type=TextSelectorType.TEXT),
                     ),
                     vol.Required(CONF_PASSWORD): TextSelector(
-                        TextSelectorConfig(
-                            type=TextSelectorType.PASSWORD
-                        ),
+                        TextSelectorConfig(type=TextSelectorType.PASSWORD),
                     ),
                 }
             ),
             errors=_errors,
         )
 
-    async def async_step_select_device(
-            self,
-            user_input: dict
-    ) -> config_entries.FlowResult:
+    async def async_step_select_device(self, user_input: dict) -> config_entries.FlowResult:
         """List the available devices to the user."""
 
         _errors = {}
@@ -77,24 +71,11 @@ class EcodanFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             await self.async_set_unique_id(device_id)
             self._abort_if_unique_id_configured()
             data = dict(self._account)
-            data.update({
-                "device_id": device_id,
-                "device_name": device_name
-            })
-            return self.async_create_entry(
-                title=data[CONF_USERNAME], data=data
-            )
+            data.update({"device_id": device_id, "device_name": device_name})
+            return self.async_create_entry(title=data[CONF_USERNAME], data=data)
         else:
             return self.async_show_form(
                 step_id="select_device",
-                data_schema=vol.Schema(
-                    {
-                        "device": selector({
-                            "select": {
-                                "options": list(self._devices.keys())
-                            }
-                        })
-                    }
-                ),
+                data_schema=vol.Schema({"device": selector({"select": {"options": list(self._devices.keys())}})}),
                 errors=_errors,
             )

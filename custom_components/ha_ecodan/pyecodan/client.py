@@ -11,12 +11,13 @@ class Client:
 
     base_url = "https://app.melcloud.com/Mitsubishi.Wifi.Client"
 
-    def __init__(self,
-                 username: str = os.getenv("ECODAN_USERNAME"),
-                 password: str = os.getenv("ECODAN_PASSWORD"),
-                 session: ClientSession = None):
-        """
-        Create a client with the supplied credentials.
+    def __init__(
+        self,
+        username: str = os.getenv("ECODAN_USERNAME"),
+        password: str = os.getenv("ECODAN_PASSWORD"),
+        session: ClientSession = None,
+    ):
+        """Create a client with the supplied credentials.
 
         :param username: MELCloud username. Default is taken from the environment variable `ECODAN_USERNAME`
         :param password: MELCloud password. Default is taken from the environment variable `ECODAN_PASSWORD`
@@ -54,7 +55,7 @@ class Client:
             "Language": 0,
             "AppVersion": "1.26.2.0",
             "Persist": True,
-            "CaptchaResponse": None
+            "CaptchaResponse": None,
         }
         async with self._session.post(login_url, json=login_data) as response:
             response_data = await response.json()
@@ -79,14 +80,12 @@ class Client:
             structure = location["Structure"]
             location_name = location["Name"]
             for device in structure["Devices"]:
-                devices[device["DeviceName"]] = {
-                    "location_name": location_name,
-                    "id": device["DeviceID"]
-                }
+                devices[device["DeviceName"]] = {"location_name": location_name, "id": device["DeviceID"]}
 
         return devices
 
     async def __aenter__(self) -> "Client":
+        """Enter context manager."""
         return self
 
     async def __aexit__(
@@ -95,4 +94,5 @@ class Client:
         exc_val,
         exc_tb,
     ) -> None:
+        """Exit context manager."""
         await self._session.__aexit__(exc_type, exc_val, exc_tb)
