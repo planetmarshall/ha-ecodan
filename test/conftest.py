@@ -2,6 +2,8 @@ import pytest
 
 from unittest.mock import Mock
 
+from data.melcloud import MelCloudData
+
 
 @pytest.fixture
 def coordinator():
@@ -14,3 +16,8 @@ def coordinator():
         return mock
 
     return _coordinator
+
+
+@pytest.fixture
+def melcloud():
+    return MelCloudData()
