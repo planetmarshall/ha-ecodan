@@ -3,7 +3,7 @@ from __future__ import annotations
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import ATTRIBUTION, DOMAIN, NAME, VERSION
+from .const import ATTRIBUTION, DOMAIN, NAME, VERSION, MANUFACTURER
 from .coordinator import EcodanDataUpdateCoordinator
 
 
@@ -21,5 +21,5 @@ class EcodanEntity(CoordinatorEntity):
             identifiers={(DOMAIN, coordinator.device.id)},
             name=NAME,
             model=VERSION,
-            manufacturer=NAME,
+            manufacturer=MANUFACTURER,
         )

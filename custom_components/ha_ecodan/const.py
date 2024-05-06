@@ -4,6 +4,7 @@ from logging import Logger, getLogger
 
 LOGGER: Logger = getLogger(__package__)
 
+MANUFACTURER = "Mitsubishi Electric"
 NAME = "Ecodan"
 DOMAIN = "ha_ecodan"
 VERSION = "0.1.1"

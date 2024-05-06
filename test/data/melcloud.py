@@ -335,8 +335,6 @@ _device_list = {
 }
 
 _example_request = {
-    "EffectiveFlags": 281475043819552,
-    "OperationModeZone1": 1,
     "DeviceID": 67204455,
 }
 
@@ -464,3 +462,8 @@ class MelCloudData:
         request = _example_request.copy()
         request.update(kwargs)
         return request
+
+    def response_with(self, **kwargs) -> dict:
+        response = _example_response.copy()
+        response.update(kwargs)
+        return response
