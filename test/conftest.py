@@ -1,6 +1,6 @@
 import pytest
 
-from unittest.mock import Mock
+from unittest.mock import Mock, AsyncMock
 
 from data.melcloud import MelCloudData
 
@@ -13,6 +13,7 @@ def coordinator():
 
         mock = Mock()
         mock.data = _data
+        mock.async_request_refresh = AsyncMock()
         return mock
 
     return _coordinator

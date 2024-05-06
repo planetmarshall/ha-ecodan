@@ -55,7 +55,7 @@ class DeviceState:
             DeviceStateKeys.OutdoorTemperature,
             DeviceStateKeys.HotWaterTemperature,
             DeviceStateKeys.OperationModeZone1,
-            DeviceStateKeys.ForcedHotWaterMode
+            DeviceStateKeys.ForcedHotWaterMode,
         ):
             self._state[field] = internal_device_state[field]
 
@@ -102,9 +102,8 @@ class Device:
 
     @property
     def forced_hot_water(self) -> bool:
-        """Get if hot water is currently being forced"""
+        """Get if hot water is currently being forced."""
         return self._state[DeviceStateKeys.ForcedHotWaterMode]
-
 
     async def _request(self, effective_flags: EffectiveFlags, **kwargs) -> dict:
         state = {
@@ -149,7 +148,7 @@ class Device:
             raise DeviceCommunicationError("Power could not be set")
 
     async def force_hot_water(self, force: bool) -> None:
-        """Force hot water mode"""
+        """Force hot water mode."""
         response_state = await self._request(EffectiveFlags.ForceHotWater, ForcedHotWaterMode=force)
         if not response_state[DeviceStateKeys.ForcedHotWaterMode] == force:
             raise DeviceCommunicationError(f"Could not set forced hot water mode to : {force}")
