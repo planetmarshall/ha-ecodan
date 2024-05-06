@@ -1,5 +1,6 @@
 ha-ecodan
 =========
+![Lint and test workflow](https://github.com/planetmarshall/ha-ecodan/actions/workflows/lint_and_test.yml/badge.svg)
 
 A [Home Assistant](https://www.home-assistant.io/)
 integration for the [Mitsubishi Ecodan](https://les.mitsubishielectric.co.uk/products/residential-heating/outdoor)
