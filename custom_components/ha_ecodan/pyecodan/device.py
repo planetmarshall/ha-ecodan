@@ -9,6 +9,7 @@ class EffectiveFlags(IntFlag):
     Update = 0x0
     Power = 0x1
     OperationModeZone1 = 0x8
+    ForceHotWater = 0x10000
 
 
 class DeviceStateKeys:
@@ -19,6 +20,7 @@ class DeviceStateKeys:
     OutdoorTemperature = "OutdoorTemperature"
     HotWaterTemperature = "TankWaterTemperature"
     OperationModeZone1 = "OperationModeZone1"
+    ForcedHotWaterMode = "ForcedHotWaterMode"
     Power = "Power"
 
 
@@ -53,6 +55,7 @@ class DeviceState:
             DeviceStateKeys.OutdoorTemperature,
             DeviceStateKeys.HotWaterTemperature,
             DeviceStateKeys.OperationModeZone1,
+            DeviceStateKeys.ForcedHotWaterMode
         ):
             self._state[field] = internal_device_state[field]
 
@@ -97,14 +100,19 @@ class Device:
         """The heating operation mode."""
         return OperationMode(self._state[DeviceStateKeys.OperationModeZone1])
 
+    @property
+    def forced_hot_water(self) -> bool:
+        """Get if hot water is currently being forced"""
+        return self._state[DeviceStateKeys.ForcedHotWaterMode]
+
+
     async def _request(self, effective_flags: EffectiveFlags, **kwargs) -> dict:
         state = {
-            # DevicePropertyKeys.BuildingID: self.building_id,
             DevicePropertyKeys.DeviceID: self.id,
             DevicePropertyKeys.EffectiveFlags: effective_flags,
         }
         state.update(kwargs)
-        return await self._client.device_request("SetAtw", state)
+        return await self._client.device_request(state)
 
     async def get_state(self) -> dict:
         """Request a state update and return as a dictionary."""
@@ -139,3 +147,10 @@ class Device:
         response_state = await self._request(EffectiveFlags.Power, Power=False)
         if response_state[DeviceStateKeys.Power]:
             raise DeviceCommunicationError("Power could not be set")
+
+    async def force_hot_water(self, force: bool) -> None:
+        """Force hot water mode"""
+        response_state = await self._request(EffectiveFlags.ForceHotWater, ForcedHotWaterMode=force)
+        if not response_state[DeviceStateKeys.ForcedHotWaterMode] == force:
+            raise DeviceCommunicationError(f"Could not set forced hot water mode to : {force}")
+        self._check_response(response_state)

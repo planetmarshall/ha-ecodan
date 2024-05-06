@@ -27,13 +27,13 @@ class Client:
         self._context_key = None
         self._session = session or ClientSession()
 
-    async def device_request(self, endpoint: str, state: dict):
-        """Make a request of the API."""
+    async def device_request(self, state: dict):
+        """Make a SetAtw request of the API."""
         if self._context_key is None:
             await self.login()
 
         auth_header = {"X-MitsContextKey": self._context_key}
-        url = f"{Client.base_url}/Device/{endpoint}"
+        url = f"{Client.base_url}/Device/SetAtw"
         async with self._session.post(url, headers=auth_header, json=state) as response:
             return await response.json()
 
