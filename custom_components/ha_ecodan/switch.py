@@ -47,10 +47,10 @@ ENTITY_DESCRIPTIONS = [
         key="ha_ecodan",
         name="Force Hot Water",
         icon="mdi:thermometer-water",
-        state_key = DeviceStateKeys.ForcedHotWaterMode,
-        turn_on_fn = lambda device: device.force_hot_water(True),
-        turn_off_fn = lambda device: device.force_hot_water(False),
-    )
+        state_key=DeviceStateKeys.ForcedHotWaterMode,
+        turn_on_fn=lambda device: device.force_hot_water(True),
+        turn_off_fn=lambda device: device.force_hot_water(False),
+    ),
 ]
 
 
